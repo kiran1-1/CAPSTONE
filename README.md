@@ -1,76 +1,93 @@
-# 🚗 **Parking Spot Finder** 
+# 🚗 **Parking Spot Finder**
 
 This project is a **real-time parking spot detection system** that leverages cutting-edge computer vision techniques to identify and classify parking spots. It supports two approaches: **CNN-based detection** and **YOLOv8-based detection**, each tailored for specific scenarios.
 
 ---
 
-## ✨ **Features**
-- Real-time parking lot monitoring.
-- Classification of parking spots into:
-  - **🟢 Empty**
-  - **🔴 Non-Empty**
-  - **🔵 Disabled**
-- Aggregated parking spot counts with dynamic updates.
-- Interactive parking lot selection and information display.
-- Two implementation approaches:
-  1. **CNN-based Approach**: High accuracy for fixed-camera setups.
-  2. **YOLOv8-based Approach**: Robust real-time detection for dynamic environments like drone footage.
+## **Overview and Aim of the Project**
+
+Parking in urban areas poses significant challenges, including traffic congestion, driver frustration, and wasted resources. This project aims to address these issues by developing a **real-time parking spot detection system**. The system uses computer vision to classify parking spots into `empty`, `non-empty`, or `disabled`.
+
+### **Goals:**
+- Provide real-time information about parking spot availability.
+- Compare the effectiveness of two approaches:
+  1. **CNN-based detection** for fixed-camera setups.
+  2. **YOLOv8-based detection** for dynamic environments like drone footage.
+- Enhance accuracy and efficiency in parking lot management.
 
 ---
 
-## 🛠 **Technologies Used**
-- **Frontend**: HTML, CSS, JavaScript, Flask for integration.
-- **Backend**: Python, Flask, OpenCV, ResNet50 (CNN), YOLOv8.
-- **Tools**:
-  - 📄 **CVAT**: Dataset annotation.
-  - 🔄 **Albumentations**: Data augmentation.
-  - 📊 **PKLot Dataset**: Parking spot images.
-  - 🔍 **OpenCV**: Mask generation and bounding box extraction.
+## 📊 **Dataset Information**
+
+### **Datasets Used:**
+1. **PKLot Dataset**:
+   - Contains labeled parking lot images under various conditions (e.g., lighting, weather).
+   - Classes: `empty`, `non-empty`, `disabled`.
+
+2. **Additional Data:**
+   - Images collected from the internet to enhance dataset diversity.
+   - Disabled parking spots were underrepresented, so data augmentation techniques were applied.
+
+### **Data Preprocessing:**
+- **For CNN:**
+  - Images were cropped into individual parking spots and categorized into folders (`empty`, `non-empty`, `disabled`).
+  - Augmentation techniques like brightness adjustment, noise addition, and shadow simulation were used to balance the dataset.
+- **For YOLOv8:**
+  - Bounding boxes were annotated using CVAT.
+  - Augmentation was applied to simulate real-world conditions.
 
 ---
 
-## 💻 **Approach 1: CNN-Based Detection**
-### **Workflow**
-1. **Input**: Video feed from a fixed overhead camera.
-2. **Mask Generation**: OpenCV generates a mask to isolate parking spots.
-3. **Bounding Box Extraction**: Parking spots are identified and extracted as bounding boxes.
-4. **ResNet50 Classification**:
-   - Each bounding box is classified into `empty`, `non-empty`, or `disabled`.
-5. **Optimizations**:
-   - Frame-skipping (predictions every 100 frames).
-   - State-change detection to minimize redundant predictions.
-   - Predefined coordinates for `disabled` spots to handle dataset imbalance.
-6. **Output**: Spot counts are dynamically updated in the frontend.
+## 🔬 **Results**
 
-### **Strengths**
-- High accuracy: Training accuracy (97.5%), Validation accuracy (97.9%).
-- Best suited for fixed-camera setups.
+### **CNN-Based Detection:**
+- **Training Accuracy:** 97.5%
+- **Validation Accuracy:** 97.9%
+- **Strengths:**
+  - High accuracy for structured parking lots.
+  - Effective for fixed-camera setups.
+- **Limitations:**
+  - Computationally expensive for real-time applications.
+  - Requires static camera positioning.
 
-### **Limitations**
-- Computationally expensive for real-time scenarios.
-- Requires a static camera position.
-
----
-
-## 🚀 **Approach 2: YOLOv8-Based Detection**
-### **Workflow**
-1. **Input**: Video feed from static or dynamic sources (e.g., drones).
-2. **Bounding Box Detection**: YOLOv8 detects parking spots and classifies them into `empty`, `non-empty`, or `disabled`.
-3. **Data Annotation**: CVAT is used for creating labeled bounding boxes.
-4. **Output**: Real-time parking spot counts are displayed in the frontend.
-
-### **Strengths**
-- Robust to camera movement and dynamic environments.
-- Faster frame processing, ideal for real-time use.
-
-### **Limitations**
-- Slightly lower accuracy due to dataset imbalance.
-- Requires more labeled data for optimal performance.
+### **YOLOv8-Based Detection:**
+- **Mean Average Precision (mAP):** 91.4%
+- **Strengths:**
+  - Robust to camera movement and dynamic environments.
+  - Faster frame processing, ideal for real-time scenarios.
+- **Limitations:**
+  - Requires a balanced dataset for optimal performance.
+  - Slightly lower accuracy compared to CNN.
 
 ---
 
-## 🛠️ **How to Run the Project**
-### **Setup**
-1. Clone the repository:
-   ```bash
-   git clone (https://github.com/kiran1-1/CAPSTONE.git)
+## 📈 **Visuals**
+
+### **Real-Time Parking Spot Status Visualization**
+1. Parking spots are categorized into:
+   - **🟢 Empty**
+   - **🔴 Non-Empty**
+   - **🔵 Disabled**
+2. Users can select a parking lot and view real-time counts of parking spot availability.
+
+### **Example Graphs:**
+1. **Accuracy Over Epochs:**
+   - Line graph comparing CNN and YOLOv8 training and validation accuracy.
+2. **Frame Processing Time:**
+   - Bar chart showing the average time taken by CNN and YOLOv8 to process a single frame.
+
+---
+
+## 📂 **Project Structure**
+```plaintext
+Parking-Spot-Finder/
+│
+├── app.py                 # Flask backend
+├── static/                # Static files for frontend
+│   ├── css/               # CSS files
+│   └── js/                # JavaScript files
+├── templates/             # HTML templates for frontend
+├── models/                # Pre-trained models (ResNet50, YOLOv8)
+├── utils/                 # Utility scripts (mask generation, preprocessing)
+├── dataset/               # Dataset and annotations
+└── requirements.txt       # Python dependencies
