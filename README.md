@@ -73,4 +73,4 @@ This project is a **real-time parking spot detection system** that leverages cut
 ### **Setup**
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/Parking-Spot-Finder.git
+   git clone (https://github.com/kiran1-1/CAPSTONE.git)
